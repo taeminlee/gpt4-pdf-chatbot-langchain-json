@@ -25,7 +25,8 @@ export default function Home() {
   }>({
     messages: [
       {
-        message: 'Hi, what would you like to learn about this document?',
+        message:
+          '뷰성형외과에 대한 질문을 해 주시면 답변해드리도록 하겠습니다.',
         type: 'apiMessage',
       },
     ],
@@ -125,7 +126,7 @@ export default function Home() {
       <Layout>
         <div className="mx-auto flex flex-col gap-4">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
-            View Plastic Surgery Chatbot
+            뷰성형외과 상담도우미
           </h1>
           <main className={styles.main}>
             <div className={styles.cloud}>
@@ -261,9 +262,9 @@ export default function Home() {
           </main>
         </div>
         <footer className="m-auto p-4">
-          <a href="https://twitter.com/mayowaoshin">
+          {/* <a href="https://github.com/jooinjang/gpt4-pdf-chatbot-langchain-json">
             Powered by LangChainAI. Demo built by Mayo (Twitter: @mayowaoshin).
-          </a>
+          </a> */}
         </footer>
       </Layout>
     </>
