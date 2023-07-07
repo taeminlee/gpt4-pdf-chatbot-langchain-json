@@ -13,7 +13,33 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 
+
+import ClipboardJS from 'clipboard';
+//const copyButton = document.getElementById('copyButton');
+//const textToCopy = '복사할 텍스트';
+
+
+function copyUrl() {
+  const clipboard = new ClipboardJS('#copyUrl');
+  clipboard.on('success', function (e) {
+      e.clearSelection();
+      alert("텍스트가 클립보드에 복사되었습니다.")
+
+      clipboard.destroy();
+  });
+
+  clipboard.on('error', function (e) {
+      console.error('Action:', e.action);
+      console.error('Trigger:', e.trigger);
+
+      clipboard.destroy();
+  });
+}
+
 export default function Home() {
+
+
+
   const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -54,7 +80,6 @@ export default function Home() {
     }
 
     const question = query.trim();
-
     setMessageState((state) => ({
       ...state,
       messages: [
@@ -100,6 +125,9 @@ export default function Home() {
         }));
       }
       console.log('messageState', messageState);
+      
+
+      
 
       setLoading(false);
 
@@ -112,6 +140,8 @@ export default function Home() {
     }
   }
 
+
+
   //prevent empty submissions
   const handleEnter = (e: any) => {
     if (e.key === 'Enter' && query) {
@@ -121,6 +151,9 @@ export default function Home() {
     }
   };
 
+
+  
+
   return (
     <>
       <Layout>
@@ -128,12 +161,16 @@ export default function Home() {
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
             뷰성형외과 상담도우미
           </h1>
+
+
+
           <main className={styles.main}>
             <div className={styles.cloud}>
               <div ref={messageListRef} className={styles.messagelist}>
                 {messages.map((message, index) => {
                   let icon;
                   let className;
+                  
                   if (message.type === 'apiMessage') {
                     icon = (
                       <Image
@@ -163,8 +200,7 @@ export default function Home() {
                     className =
                       loading && index === messages.length - 1
                         ? styles.usermessagewaiting
-                        : styles.usermessage;
-                  }
+                        : styles.usermessage;                  }
                   return (
                     <>
                       <div key={`chatMessage-${index}`} className={className}>
@@ -172,9 +208,29 @@ export default function Home() {
                         <div className={styles.markdownanswer}>
                           <ReactMarkdown linkTarget="_blank">
                             {message.message}
-                          </ReactMarkdown>
+                          </ReactMarkdown>                
                         </div>
+                      
+                      <button id="copyUrl" data-clipboard-text={message.message} onClick={()=>copyUrl()}>
+                        <div className={styles.loadingwheel}>
+                          <LoadingDots color="#000" />
+                        </div>
+                        <svg
+                          viewBox="0 0 20 20"
+                          className={styles.svgicon}
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                        </svg>
+                      </button>
+                      
+                                                                 
                       </div>
+                      
+
+
+
+
                       {message.sourceDocs && (
                         <div
                           className="p-5"
@@ -201,7 +257,7 @@ export default function Home() {
                                   </AccordionContent>
                                 </AccordionItem>
                               </div>
-                            ))}
+                            ))} 
                           </Accordion>
                         </div>
                       )}
@@ -210,6 +266,9 @@ export default function Home() {
                 })}
               </div>
             </div>
+
+
+
             <div className={styles.center}>
               <div className={styles.cloudform}>
                 <form onSubmit={handleSubmit}>
